@@ -29,6 +29,7 @@
 
 /* ---------- Base + mobile-native baseline ---------- */
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; background: var(--bg); scroll-padding-top: calc(var(--header) + 12px); }
 html:not(.lenis) { scroll-behavior: smooth; }
 html.lenis, html.lenis body { height: auto; }
@@ -106,7 +107,7 @@ p { margin: 0 0 1rem; }
 @media (hover: hover) and (pointer: fine) { .link-arrow:hover .i { transform: translateX(4px); } }
 
 /* ---------- Header ---------- */
-.header { position: fixed; inset: 0 0 auto 0; z-index: 70; padding-top: env(safe-area-inset-top, 0px); view-transition-name: site-header; border-bottom: 1px solid transparent; transition: background-color 350ms ease, border-color 350ms ease; }
+.header { position: fixed; inset: 0 0 auto 0; z-index: 70; padding-top: env(safe-area-inset-top, 0px); view-transition-name: site-header; border-bottom: 1px solid transparent; transition: background-color 350ms ease, border-color 350ms ease, transform 450ms var(--ease-drawer); }
 .header.is-solid { background: rgba(3,4,7,.72); backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%); border-bottom-color: var(--line); }
 .header__inner { display: flex; align-items: center; gap: 1rem; height: var(--header); }
 .logo { display: flex; align-items: center; gap: .65rem; color: var(--text); text-decoration: none; min-height: 44px; margin-right: auto; }
@@ -602,3 +603,55 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--b
   .js .reveal-img { clip-path: none; }
   .section { content-visibility: auto; contain-intrinsic-size: auto 900px; }
 }
+
+/* ==========================================================
+   Polish layer: image blur-up, motion details, app-like chrome
+   ========================================================== */
+
+/* Images fade in over a tiny blurred preview (set by JS as the box background) */
+.blurup { background-size: cover; background-position: center; background-color: var(--surface); }
+.js img.fade { opacity: 0; transition: opacity 700ms ease, transform 900ms var(--ease-out); }
+.js img.fade.is-ready { opacity: 1; }
+
+/* Gallery: fixed rhythm of aspect ratios — no layout jumps while photos load */
+.masonry img { aspect-ratio: 4 / 5; object-fit: cover; }
+.masonry figure:nth-child(3n+2) img { aspect-ratio: 1 / 1; }
+.masonry figure:nth-child(4n+3) img { aspect-ratio: 3 / 4; }
+
+/* Scroll progress hairline (browsers with scroll-driven animations) */
+.progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 80; pointer-events: none; transform-origin: left; transform: scaleX(0); background: linear-gradient(90deg, var(--blue), var(--ice)); box-shadow: 0 0 10px rgba(47,123,255,.8); display: none; }
+@supports (animation-timeline: scroll()) {
+  .progress { display: block; animation: progress linear both; animation-timeline: scroll(root); }
+  @keyframes progress { to { transform: scaleX(1); } }
+}
+
+/* Header tucks away while scrolling down on phones/tablets, returns on scroll up */
+.header.is-tucked { transform: translateY(-100%); }
+.menu-nav, .svc-index { transition: transform 450ms var(--ease-drawer); }
+.header.is-tucked ~ main .menu-nav, .header.is-tucked ~ main .svc-index { transform: translateY(calc(-1 * (var(--header) + env(safe-area-inset-top, 0px)))); }
+
+/* Pointer spotlight on cards & tiles (mouse only) */
+@media (hover: hover) and (pointer: fine) {
+  .card, .tile, .sig__item { --mx: 50%; --my: 50%; }
+  .card::after, .tile::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 300ms ease;
+    background: radial-gradient(420px circle at var(--mx) var(--my), rgba(154,217,255,.08), transparent 60%); }
+  .card:hover::after, .tile:hover::after { opacity: 1; }
+  .card { transition: border-color 300ms ease; }
+  .card:hover { border-color: var(--line-2); }
+}
+
+/* Phones: slow cinematic drift on the hero still (compositor-only transform) */
+@media (max-width: 899px) and (prefers-reduced-motion: no-preference) {
+  .hero__media img { transition: none; transform: none; animation: drift 22s ease-in-out infinite alternate; }
+  @keyframes drift { from { transform: scale(1.04); } to { transform: scale(1.14) translate(-2%, -1.5%); } }
+}
+
+/* Gentle gradient sheen on serif accent words in headings */
+h1 em, h2 em, .h2 em { background: linear-gradient(100deg, var(--ice) 20%, #d9f1ff 45%, var(--blue-hi) 80%); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .06em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js img.fade { transition: opacity 300ms ease; }
+  .header.is-tucked { transform: none; }
+  .header.is-tucked ~ main .menu-nav, .header.is-tucked ~ main .svc-index { transform: none; }
+}
+.rotator > span { background: linear-gradient(100deg, var(--ice) 20%, #d9f1ff 45%, var(--blue-hi) 80%); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .06em; }

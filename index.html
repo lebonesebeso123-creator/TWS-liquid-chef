@@ -10,7 +10,12 @@
   <meta property="og:title" content="TWS Liquid Chef — Mix • Create • Serve">
   <meta property="og:description" content="Premium beverage experiences for corporate events, weddings and celebrations across Botswana.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <script>document.documentElement.classList.add("js")</script>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TWS">
+  <script>document.documentElement.classList.add("js");addEventListener("pagereveal",(e)=>{const v=e.viewTransition;if(v){v.ready.catch(()=>{});v.finished.catch(()=>{});v.updateCallbackDone.catch(()=>{})}})</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://images.unsplash.com">
@@ -32,10 +37,10 @@
       <div class="wrap hero__inner">
         <svg class="hero__logo" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 6h20L17.5 17v7.5H22V27H10v-2.5h4.5V17z"/><path class="fill" d="M10.2 9h11.6L16 15z"/></svg>
         <p class="kicker" data-in style="--in:100">TWS Liquid Chef · Botswana</p>
-        <h1 class="display">
+        <h1 class="display" aria-label="Premium drinks, crafted for every occasion.">
           <span class="line"><span data-in style="--in:180">Premium drinks,</span></span>
           <span class="line"><span data-in style="--in:260">crafted for</span></span>
-          <span class="line"><span data-in style="--in:340"><span class="rotator" aria-live="off">
+          <span class="line"><span data-in style="--in:340"><span class="rotator" aria-hidden="true">
             <span class="is-on">every occasion.</span>
             <span>the boardroom.</span>
             <span>your wedding.</span>

@@ -94,14 +94,27 @@ function renderChrome() {
     </div>
   </footer>
   <a class="fab is-hidden" href="${wa()}" target="_blank" rel="noopener">${icon("wa")} WhatsApp for a quote</a>
-  <div class="curtain" aria-hidden="true"></div>`;
+  <div class="curtain" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"></div>`;
 }
 
 /* ---------- Header, menu ---------- */
 function initHeader() {
   const header = $(".header"), burger = $(".burger"), menu = $("#site-menu");
-  let open = false;
-  const onScroll = () => header.classList.toggle("is-solid", open || scrollY > 24);
+  let open = false, lastY = scrollY, ticking = false;
+  const tuckable = matchMedia("(max-width: 1199px)");
+  const onScroll = () => {
+    const y = scrollY;
+    header.classList.toggle("is-solid", open || y > 24);
+    // phones/tablets: tuck the header away while reading down, bring it back on any scroll up
+    const down = y > lastY + 4, up = y < lastY - 4;
+    if (open || !tuckable.matches || y < 140) header.classList.remove("is-tucked");
+    else if (down) header.classList.add("is-tucked");
+    else if (up) header.classList.remove("is-tucked");
+    if (down || up) lastY = y;
+    ticking = false;
+  };
+  const onScrollRaf = () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } };
   const setOpen = (next) => {
     if (next === open) return;
     open = next;
@@ -117,7 +130,9 @@ function initHeader() {
   $$("a", menu).forEach((a) => a.addEventListener("click", () => setOpen(false)));
   addEventListener("keydown", (e) => e.key === "Escape" && setOpen(false));
   matchMedia("(min-width: 1200px)").addEventListener("change", (e) => e.matches && setOpen(false));
-  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  addEventListener("scroll", onScrollRaf, { passive: true }); onScroll();
+  // keyboard users: focusing anything in the header brings it back
+  header.addEventListener("focusin", () => header.classList.remove("is-tucked"));
 }
 
 /* Floating WhatsApp: hidden while the first screen or any [data-hide-fab] is visible */
@@ -461,16 +476,84 @@ PAGES[PAGE]?.();
 $$("[data-faqs]").forEach((el) => renderFaqs(el, FAQS.slice(0, +el.dataset.faqs || FAQS.length)));
 $$("[data-wa]").forEach((a) => { a.href = wa(a.dataset.wa || undefined); a.target = "_blank"; a.rel = "noopener"; });
 $$("[data-email]").forEach((a) => { a.href = `mailto:${CONFIG.email}`; if (!a.textContent.trim()) a.textContent = CONFIG.email; });
-// Responsive sizes for lazy Unsplash images: phones fetch ~480–800px instead of desktop sizes
-$$('img[loading="lazy"][src*="images.unsplash.com"]').forEach((im) => {
-  const base = im.src.split("?")[0];
-  im.srcset = [480, 800, 1200, 1800].map((w) => `${base}?w=${w}&q=65&auto=format&fit=crop ${w}w`).join(", ");
-  im.sizes = im.closest(".masonry") ? "(min-width: 900px) 33vw, 50vw"
-    : im.closest(".tile, .sig__item") ? "(min-width: 1050px) 33vw, (min-width: 700px) 50vw, 100vw"
-    : im.closest(".cta") ? "100vw" : "(min-width: 950px) 50vw, 100vw";
-});
+initImages();
 initReveal();
 initFab();
+initSpotlight();
 initSmoothScroll();
-// Start the entrance immediately: fonts swap in when ready (display=swap), no waiting on slow networks
-requestAnimationFrame(() => document.documentElement.classList.add("is-loaded"));
+initInstantPages();
+initOffline();
+// Start the entrance as soon as the page is actually on screen (a prerendered page waits until it's shown)
+const startEntrance = () => requestAnimationFrame(() => document.documentElement.classList.add("is-loaded"));
+if (document.prerendering) document.addEventListener("prerenderingchange", startEntrance, { once: true });
+else startEntrance();
+
+/* ---------- Images: phone-sized downloads + blurred preview + fade-in ---------- */
+function initImages() {
+  const tiny = (base) => `url("${base}?w=40&q=30&blur=80&auto=format")`;
+  $$('img[src*="images.unsplash.com"]').forEach((im) => {
+    if (im.closest(".lightbox")) return;
+    const base = im.src.split("?")[0];
+    const box = im.parentElement;
+    box.classList.add("blurup");
+    box.style.backgroundImage = tiny(base);
+    if (im.loading !== "lazy") return; // first-screen photos: already sized in the HTML, never hidden
+    im.srcset = [480, 800, 1200, 1800].map((w) => `${base}?w=${w}&q=65&auto=format&fit=crop ${w}w`).join(", ");
+    im.sizes = im.closest(".masonry") ? "(min-width: 900px) 33vw, 50vw"
+      : im.closest(".tile, .sig__item") ? "(min-width: 1050px) 33vw, (min-width: 700px) 50vw, 100vw"
+      : im.closest(".cta") ? "100vw" : "(min-width: 950px) 50vw, 100vw";
+    im.decoding = "async";
+    if (im.complete && im.naturalWidth) return;
+    im.classList.add("fade");
+    const done = () => im.classList.add("is-ready");
+    im.addEventListener("load", done, { once: true });
+    im.addEventListener("error", done, { once: true });
+  });
+}
+
+/* ---------- Spotlight that follows the mouse over cards ---------- */
+function initSpotlight() {
+  if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  document.addEventListener("pointermove", (e) => {
+    const el = e.target.closest?.(".card, .tile");
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    el.style.setProperty("--my", `${e.clientY - r.top}px`);
+  }, { passive: true });
+}
+
+/* ---------- Instant page loads ----------
+   Chrome/Edge/Android: pages are prerendered when you hover or start a tap, so they open instantly.
+   Safari/Firefox: the next page is prefetched on hover / touch instead. */
+function initInstantPages() {
+  if (HTMLScriptElement.supports?.("speculationrules")) {
+    const s = document.createElement("script");
+    s.type = "speculationrules";
+    s.textContent = JSON.stringify({
+      prerender: [{ where: { and: [{ href_matches: "*.html" }, { not: { selector_matches: "[target=_blank]" } }] }, eagerness: "moderate" }],
+      prefetch: [{ where: { href_matches: "*.html" }, eagerness: "moderate" }]
+    });
+    document.head.append(s);
+    return;
+  }
+  const done = new Set([location.pathname]);
+  const warm = (e) => {
+    const a = e.target.closest?.("a[href$='.html']");
+    if (!a || a.target === "_blank") return;
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin || done.has(url.pathname)) return;
+    done.add(url.pathname);
+    const l = document.createElement("link");
+    l.rel = "prefetch"; l.href = url.href;
+    document.head.append(l);
+  };
+  document.addEventListener("pointerover", warm, { passive: true });
+  document.addEventListener("touchstart", warm, { passive: true });
+}
+
+/* ---------- Offline cache + "Add to Home Screen" app ---------- */
+function initOffline() {
+  if (!("serviceWorker" in navigator) || location.protocol !== "https:") return;
+  addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
