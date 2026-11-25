@@ -588,3 +588,17 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--b
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
   .is-loaded .hero__logo path { animation-duration: .01s; animation-delay: 0s; }
 }
+
+/* ---------- Phones & touch devices: drop effects that repaint on every scroll frame ---------- */
+@media (pointer: coarse), (max-width: 899px) {
+  body::after { display: none; }                         /* full-screen blended grain */
+  .header.is-solid, .menu-nav, .svc-index { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(3,4,7,.96); }
+  .menu { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(3,4,7,.985); }
+  .glass, .btn--glass, .burger { backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .glass { background: rgba(14,18,30,.88); }
+  .btn--glass { background: rgba(14,18,30,.6); }
+  .logo__mark path, .hero__logo path { filter: none; }
+  .js .reveal { transform: translateY(16px); transition-duration: 600ms, 700ms; }
+  .js .reveal-img { clip-path: none; }
+  .section { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+}

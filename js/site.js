@@ -472,5 +472,5 @@ $$('img[loading="lazy"][src*="images.unsplash.com"]').forEach((im) => {
 initReveal();
 initFab();
 initSmoothScroll();
-Promise.race([document.fonts?.ready, new Promise((r) => setTimeout(r, 700))])
-  .then(() => requestAnimationFrame(() => document.documentElement.classList.add("is-loaded")));
+// Start the entrance immediately: fonts swap in when ready (display=swap), no waiting on slow networks
+requestAnimationFrame(() => document.documentElement.classList.add("is-loaded"));
