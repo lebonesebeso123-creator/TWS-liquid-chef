@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>TWS Liquid Chef — Mobile Mixology &amp; Cocktail Bar Hire</title>
+  <meta name="description" content="TWS Liquid Chef brings a premium mobile cocktail bar to weddings, parties and corporate events. Browse the cocktail catalogue and request a quote.">
+  <meta name="theme-color" content="#060b1a">
+  <meta property="og:title" content="TWS Liquid Chef — Mobile Mixology">
+  <meta property="og:description" content="Premium cocktails, crafted at your event.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="top">
+    <div class="wrap nav__inner">
+      <a class="brand" href="#top" aria-label="TWS Liquid Chef home">
+        <span class="brand__mark" aria-hidden="true">TWS</span>
+        <span class="brand__name">Liquid Chef</span>
+      </a>
+      <nav class="nav__links" id="menu" aria-label="Main">
+        <a href="#menu-list">Cocktails</a>
+        <a href="#packages">Packages</a>
+        <a href="#how">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn btn--primary btn--sm" href="#book">Get a quote</a>
+      </nav>
+      <button class="nav__toggle" aria-controls="menu" aria-expanded="false" aria-label="Open menu">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="wrap hero__grid">
+        <div class="hero__copy">
+          <p class="eyebrow">Mobile mixology · Bar hire</p>
+          <h1>Cocktails crafted<br><span class="accent">like fine cuisine.</span></h1>
+          <p class="lead">TWS Liquid Chef brings a full cocktail bar, a trained mixologist and a menu built around your event — weddings, birthdays, corporate nights and everything in between.</p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#book">
+              Get a quote
+              <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="btn btn--ghost" href="#menu-list">See the cocktail menu</a>
+          </div>
+          <ul class="hero__facts" aria-label="Highlights">
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Bar, glassware &amp; ice included</li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Custom signature drinks</li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Alcohol-free menu available</li>
+          </ul>
+        </div>
+        <div class="hero__art" aria-hidden="true">
+          <div class="glass glass--hero" style="--liquid:#2f7bff;--liquid2:#7fd4ff">
+            <span class="glass__bowl"><span class="glass__fill"></span><span class="glass__shine"></span></span>
+            <span class="glass__stem"></span><span class="glass__base"></span>
+          </div>
+          <div class="orbit"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATALOGUE -->
+    <section class="section" id="menu-list" aria-labelledby="menu-title">
+      <div class="wrap">
+        <div class="section__head">
+          <p class="eyebrow">The catalogue</p>
+          <h2 id="menu-title">Pick your pours</h2>
+          <p class="muted">Choose up to six drinks for your event menu. Tap a drink to add it to your quote.</p>
+        </div>
+
+        <div class="filters" role="group" aria-label="Filter cocktails">
+          <button class="chip is-active" data-filter="all" aria-pressed="true">All</button>
+          <button class="chip" data-filter="signature" aria-pressed="false">Signature</button>
+          <button class="chip" data-filter="classic" aria-pressed="false">Classics</button>
+          <button class="chip" data-filter="mocktail" aria-pressed="false">Alcohol-free</button>
+        </div>
+
+        <ul class="cards" id="cards"><!-- filled by js/main.js --></ul>
+        <p class="empty" hidden>No drinks in this category yet.</p>
+      </div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section class="section section--alt" id="packages" aria-labelledby="pkg-title">
+      <div class="wrap">
+        <div class="section__head">
+          <p class="eyebrow">Packages</p>
+          <h2 id="pkg-title">Built around your guest list</h2>
+          <p class="muted">Every package includes setup, pack-down, glassware, ice and garnishes. Final price depends on guests, hours and location.</p>
+        </div>
+        <div class="pkgs">
+          <article class="pkg">
+            <svg class="i i--lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 22h8M12 11v11M5 3h14l-7 8z"/></svg>
+            <h3>The Pour</h3>
+            <p class="pkg__for">Up to 40 guests · 3 hours</p>
+            <ul>
+              <li>1 mixologist</li>
+              <li>4 cocktails from the menu</li>
+              <li>Compact mobile bar</li>
+            </ul>
+            <a class="btn btn--ghost btn--block" href="#book" data-package="The Pour">Choose The Pour</a>
+          </article>
+          <article class="pkg pkg--featured">
+            <span class="pkg__tag">Most booked</span>
+            <svg class="i i--lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg>
+            <h3>The Signature</h3>
+            <p class="pkg__for">Up to 100 guests · 5 hours</p>
+            <ul>
+              <li>2 mixologists</li>
+              <li>6 cocktails incl. 1 custom signature</li>
+              <li>Full lit bar &amp; drinks menu board</li>
+            </ul>
+            <a class="btn btn--primary btn--block" href="#book" data-package="The Signature">Choose The Signature</a>
+          </article>
+          <article class="pkg">
+            <svg class="i i--lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+            <h3>The Experience</h3>
+            <p class="pkg__for">100+ guests · corporate &amp; weddings</p>
+            <ul>
+              <li>Full bar team</li>
+              <li>Bespoke menu &amp; branded drinks</li>
+              <li>Optional cocktail masterclass</li>
+            </ul>
+            <a class="btn btn--ghost btn--block" href="#book" data-package="The Experience">Choose The Experience</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="section__head">
+          <p class="eyebrow">How it works</p>
+          <h2 id="how-title">Three steps to a better bar</h2>
+        </div>
+        <ol class="steps">
+          <li>
+            <span class="steps__n">1</span>
+            <h3>Pick your drinks</h3>
+            <p>Browse the catalogue and add your favourites to the quote.</p>
+          </li>
+          <li>
+            <span class="steps__n">2</span>
+            <h3>Send your details</h3>
+            <p>Date, venue and guest count. We reply with a tailored quote.</p>
+          </li>
+          <li>
+            <span class="steps__n">3</span>
+            <h3>We pour, you host</h3>
+            <p>We arrive early, set up, serve all night and leave the venue clean.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- BOOKING -->
+    <section class="section section--alt" id="book" aria-labelledby="book-title">
+      <div class="wrap book">
+        <div class="book__intro">
+          <p class="eyebrow">Get a quote</p>
+          <h2 id="book-title">Tell us about your event</h2>
+          <p class="muted">Your request opens in WhatsApp, ready to send. No account, no waiting.</p>
+          <div class="picked" aria-live="polite">
+            <p class="picked__label">Drinks in your quote</p>
+            <ul class="picked__list" id="picked"></ul>
+            <p class="picked__none" id="picked-none">None yet — <a href="#menu-list">add from the menu</a>.</p>
+          </div>
+        </div>
+
+        <form class="form" id="quote-form" novalidate>
+          <div class="field">
+            <label for="f-name">Your name</label>
+            <input id="f-name" name="name" autocomplete="name" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="f-date">Event date</label>
+              <input id="f-date" name="date" type="date" required>
+            </div>
+            <div class="field">
+              <label for="f-guests">Guests</label>
+              <input id="f-guests" name="guests" type="number" inputmode="numeric" min="1" placeholder="e.g. 60" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-type">Event type</label>
+            <select id="f-type" name="type">
+              <option>Wedding</option>
+              <option>Birthday / private party</option>
+              <option>Corporate event</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-pkg">Package</label>
+            <select id="f-pkg" name="package">
+              <option>Not sure yet</option>
+              <option>The Pour</option>
+              <option>The Signature</option>
+              <option>The Experience</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-venue">Venue / area</label>
+            <input id="f-venue" name="venue" autocomplete="address-level2">
+          </div>
+          <div class="field">
+            <label for="f-notes">Anything else? <span class="opt">(optional)</span></label>
+            <textarea id="f-notes" name="notes" rows="3"></textarea>
+          </div>
+          <p class="form__error" id="form-error" role="alert" hidden></p>
+          <button class="btn btn--primary btn--block" type="submit">
+            <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.5L3 21l2-5.5A8.4 8.4 0 1 1 21 11.5z"/></svg>
+            Send request on WhatsApp
+          </button>
+          <p class="form__alt">Prefer email? <a id="email-link" href="#">Send it by email instead</a></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="wrap wrap--narrow">
+        <div class="section__head">
+          <p class="eyebrow">FAQ</p>
+          <h2 id="faq-title">Good to know</h2>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>Do you supply the alcohol?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <p>We can supply everything, or work with alcohol you buy — we'll send a shopping list so nothing goes to waste.</p>
+          </details>
+          <details>
+            <summary>How far in advance should I book?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <p>Weekends fill up fast — 4 to 8 weeks ahead is ideal, but message us for last-minute dates.</p>
+          </details>
+          <details>
+            <summary>Can you create a drink just for our event?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <p>Yes. Signature drinks are designed around your colours, theme or story, and named however you like.</p>
+          </details>
+          <details>
+            <summary>What do you need at the venue?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <p>A flat space about 3 × 2 m and a power point nearby. We bring the rest.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <a class="brand" href="#top"><span class="brand__mark" aria-hidden="true">TWS</span><span class="brand__name">Liquid Chef</span></a>
+      <p class="muted">Premium mobile mixology. Please drink responsibly.</p>
+      <div class="footer__links">
+        <a href="#" data-social="instagram" aria-label="Instagram">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>
+        </a>
+        <a href="#" data-social="whatsapp" aria-label="WhatsApp">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.5L3 21l2-5.5A8.4 8.4 0 1 1 21 11.5z"/></svg>
+        </a>
+        <a href="#" data-social="email" aria-label="Email">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        </a>
+      </div>
+      <p class="muted small">© <span id="year"></span> TWS Liquid Chef</p>
+    </div>
+  </footer>
+
+  <a class="fab" href="#book" aria-label="Get a quote">
+    Get a quote <span class="fab__count" id="fab-count" hidden>0</span>
+  </a>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
